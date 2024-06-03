@@ -1,0 +1,50 @@
+User Management:
+/api/users/register: Register a new user.
+/api/users/login: Log in an existing user.
+/api/users/logout: Log out the current user.
+/api/users/profile: Get current user's profile information.
+/api/users/update_profile: Update current user's profile information.
+/api/users/delete_account: Delete current user's account.
+
+Listing Management:
+/api/listings: Get a list of all available listings.
+/api/listings/:listing_id: Get details of a specific listing by ID.
+/api/listings/search: Search listings based on criteria like city, dates, price, etc.
+/api/listings/create: Create a new listing.
+/api/listings/:listing_id/update: Update details of a specific listing by ID.
+/api/listings/:listing_id/delete: Delete a listing by ID.
+
+Booking Management:
+/api/bookings: Get a list of all bookings made by the current user.
+/api/bookings/create: Make a new booking for a listing.
+/api/bookings/:booking_id: Get details of a specific booking by ID.
+/api/bookings/:booking_id/update: Update details of a specific booking by ID.
+/api/bookings/:booking_id/cancel: Cancel a booking by ID.
+
+Review Management:
+/api/reviews: Get a list of all reviews made by the current user.
+/api/reviews/create: Create a new review for a booking.
+/api/reviews/:review_id: Get details of a specific review by ID.
+/api/reviews/:review_id/update: Update details of a specific review by ID.
+/api/reviews/:review_id/delete: Delete a review by ID.
+
+
+User Insights:
+/api/dashboard/user_statistics: Get statistics about users, such as total number of users, new sign-ups per day, etc.
+/api/dashboard/user_activity: Get activity data for users, such as login/logout times, profile updates, etc.
+/api/dashboard/top_users: Get a list of top users based on criteria like number of bookings, reviews, etc.
+
+Listing Insights:
+/api/dashboard/listing_statistics: Get statistics about listings, such as total number of listings, new listings per day, etc.
+/api/dashboard/popular_listings: Get a list of popular listings based on criteria like number of bookings, reviews, etc.
+/api/dashboard/listing_performance: Get performance metrics for listings, such as average booking price, occupancy rate, etc.
+
+Booking Insights:
+/api/dashboard/booking_statistics: Get statistics about bookings, such as total number of bookings, bookings per day, etc.
+/api/dashboard/booking_trends: Get trends in booking activity over time, such as peak booking hours, booking patterns by day of the week, etc.
+/api/dashboard/booking_revenue: Get revenue insights, such as total revenue, revenue per listing, revenue trends over time, etc.
+
+Review Insights:
+/api/dashboard/review_statistics: Get statistics about reviews, such as total number of reviews, average rating, etc.
+/api/dashboard/review_sentiment: Get sentiment analysis of reviews, such as positive/negative sentiment distribution, most mentioned keywords, etc.
+/api/dashboard/review_trends: Get trends in review activity over time, such as peak review submission times, review patterns by listing, etc.
