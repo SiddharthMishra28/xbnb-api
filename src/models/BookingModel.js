@@ -31,10 +31,38 @@ async function cancelBooking(bookingId) {
     await pool.execute('DELETE FROM bookings WHERE booking_id = ?', [bookingId]);
 }
 
+async function getBookingStatistics() {
+    const [rows] = await pool.query('SELECT COUNT(*) AS totalBookings FROM bookings');
+    return rows[0];
+}
+
+async function getBookingTrends() {
+    const [rows] = await pool.query(`
+        SELECT DATE_FORMAT(booking_date, '%Y-%m-%d') AS date, COUNT(*) AS bookingsCount
+        FROM bookings
+        GROUP BY DATE_FORMAT(booking_date, '%Y-%m-%d')
+        ORDER BY DATE_FORMAT(booking_date, '%Y-%m-%d') DESC
+    `);
+    return rows;
+}
+
+async function getBookingRevenue() {
+    const [rows] = await pool.query(`
+        SELECT DATE_FORMAT(booking_date, '%Y-%m') AS month, SUM(total_price) AS totalRevenue
+        FROM bookings
+        GROUP BY DATE_FORMAT(booking_date, '%Y-%m')
+        ORDER BY DATE_FORMAT(booking_date, '%Y-%m') DESC
+    `);
+    return rows;
+}
+
 module.exports = {
     getUserBookings,
     createBooking,
     getBookingById,
     updateBooking,
-    cancelBooking
+    cancelBooking,
+    getBookingStatistics,
+    getBookingTrends,
+    getBookingRevenue
 };

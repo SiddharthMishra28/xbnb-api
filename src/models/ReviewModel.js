@@ -32,10 +32,36 @@ async function deleteReview(reviewId) {
     await pool.execute('DELETE FROM reviews WHERE review_id = ?', [reviewId]);
 }
 
+
+async function getReviewStatistics() {
+    try {
+        const [rows, fields] = await pool.execute('SELECT COUNT(*) AS total_reviews, AVG(rating) AS average_rating FROM reviews');
+        return rows[0];
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getReviewTrends() {
+    try {
+        // Query the database to fetch review activity data over time
+        const [rows, fields] = await pool.query('SELECT DATE(review_date) AS date, COUNT(*) AS review_count FROM reviews GROUP BY DATE(review_date)');
+        
+        // Process the data to generate trends
+        const reviewTrends = rows.map(row => ({ date: row.date, reviewCount: row.review_count }));
+        
+        return reviewTrends;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getUserReviews,
     createReview,
     getReviewById,
     updateReview,
-    deleteReview
+    deleteReview,
+    getReviewStatistics,
+    getReviewTrends
 };

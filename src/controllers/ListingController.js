@@ -69,11 +69,45 @@ async function deleteListing(req, res) {
     }
 }
 
+
+async function getListingStatistics(req, res) {
+    try {
+        const listingStats = await listingModel.getListingStatistics();
+        res.json(listingStats);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+async function getPopularListings(req, res) {
+    try {
+        const popularListings = await listingModel.getPopularListings();
+        res.json(popularListings);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+async function getListingPerformance(req, res) {
+    try {
+        const listingPerformance = await listingModel.getListingPerformance();
+        res.json(listingPerformance);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 module.exports = {
     getAllListings,
     getListingById,
     searchListings,
     createListing,
     updateListing,
-    deleteListing
+    deleteListing,
+    getListingStatistics,
+    getPopularListings,
+    getListingPerformance
 };

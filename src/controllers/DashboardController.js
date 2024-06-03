@@ -1,60 +1,52 @@
+const reviewModel = require('../models/ReviewModel');
+const userModel = require('../models/UserModel');
+const listingModel = require('../models/ListingModel');
 const bookingModel = require('../models/BookingModel');
 
-async function getUserBookings(req, res) {
+async function getUserStatistics(req, res) {
     try {
-        const userId = req.user.userId;
-        const bookings = await bookingModel.getUserBookings(userId);
-        res.json(bookings);
+        const userStats = await userModel.getUserStatistics();
+        res.json(userStats);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
 
-async function createBooking(req, res) {
+async function getTopUsers(req, res) {
     try {
-        const { listing_id, check_in_date, check_out_date, total_price, currency, num_guests } = req.body;
-        const userId = req.user.userId;
-        const bookingData = { user_id: userId, listing_id, check_in_date, check_out_date, total_price, currency, num_guests };
-        const bookingId = await bookingModel.createBooking(bookingData);
-        res.status(201).json({ message: 'Booking created successfully', bookingId });
+        const topUsers = await userModel.getTopUsers();
+        res.json(topUsers);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
 
-async function getBookingById(req, res) {
+async function getListingStatistics(req, res) {
     try {
-        const { booking_id } = req.params;
-        const booking = await bookingModel.getBookingById(booking_id);
-        if (!booking) {
-            return res.status(404).json({ message: 'Booking not found' });
-        }
-        res.json(booking);
+        const listingStats = await listingModel.getListingStatistics();
+        res.json(listingStats);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
 
-async function updateBooking(req, res) {
+async function getPopularListings(req, res) {
     try {
-        const { booking_id } = req.params;
-        const updatedData = req.body;
-        await bookingModel.updateBooking(booking_id, updatedData);
-        res.json({ message: `Booking ${booking_id} updated successfully` });
+        const popularListings = await listingModel.getPopularListings();
+        res.json(popularListings);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
 
-async function cancelBooking(req, res) {
+async function getListingPerformance(req, res) {
     try {
-        const { booking_id } = req.params;
-        await bookingModel.cancelBooking(booking_id);
-        res.json({ message: `Booking ${booking_id} canceled successfully` });
+        const listingPerformance = await listingModel.getListingPerformance();
+        res.json(listingPerformance);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
@@ -91,13 +83,36 @@ async function getBookingRevenue(req, res) {
     }
 }
 
+
+async function getReviewStatistics(req, res) {
+    try {
+        const reviewStats = await reviewModel.getReviewStatistics();
+        res.json(reviewStats);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+async function getReviewTrends(req, res) {
+    try {
+        const reviewTrends = await reviewModel.getReviewTrends();
+        res.json(reviewTrends);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 module.exports = {
-    getUserBookings,
-    createBooking,
-    getBookingById,
-    updateBooking,
-    cancelBooking,
+    getUserStatistics,
+    getTopUsers,
+    getListingStatistics,
+    getPopularListings,
+    getListingPerformance,
     getBookingStatistics,
     getBookingTrends,
-    getBookingRevenue
+    getBookingRevenue,
+    getReviewStatistics,
+    getReviewTrends
 };
