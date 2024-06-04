@@ -78,4 +78,53 @@ router.post('/login', authController.login);
  */
 router.post('/logout', authenticateToken, authController.logout);
 
+/**
+ * @swagger
+ * /api/forgot_password:
+ *   post:
+ *     summary: Forgot Password function for user
+ *     tags: [Auth]
+ *     responses:
+ *       '200':
+ *         description: API Mails the user with a temporary password
+ */
+router.post('/forgot_password', authController.forgotPassword);
+
+/**
+ * @swagger
+ * /update_password:
+ *   post:
+ *     summary: Change user password
+ *     tags: [Auth]
+ *     description: Change user password after verifying current password
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: email id
+ *               currentPassword:
+ *                 type: string
+ *                 description: Current password
+ *               newPassword:
+ *                 type: string
+ *                 description: New password
+ *     responses:
+ *       200:
+ *         description: Password changed successfully
+ *       400:
+ *         description: Invalid request body
+ *       401:
+ *         description: Unauthorized, current password is incorrect
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/update_password', authenticateToken, authController.changePassword);
+
 module.exports = router;

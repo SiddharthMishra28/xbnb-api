@@ -20,6 +20,14 @@ async function updateUser(userId, userData) {
     await pool.execute('UPDATE users SET full_name = ?, phone_number = ?, profile_picture_url = ? WHERE user_id = ?', [full_name, phone_number, profile_picture_url, userId]);
 }
 
+async function updatePassword(user_id, temporaryPasswordHash) {
+    await pool.execute('UPDATE users SET password_hash = ? WHERE user_id = ?', [temporaryPasswordHash, user_id]);
+}
+
+async function updatePasswordByEmail(email, PasswordHash) {
+    await pool.execute('UPDATE users SET password_hash = ? WHERE email = ?', [PasswordHash, email]);
+}
+
 async function deleteUser(userId) {
     await pool.execute('DELETE FROM users WHERE user_id = ?', [userId]);
 }
@@ -61,6 +69,8 @@ module.exports = {
     getUserById,
     updateUser,
     deleteUser,
+    updatePassword,
+    updatePasswordByEmail,
     getUserStatistics,
     getTopUsers
 };
