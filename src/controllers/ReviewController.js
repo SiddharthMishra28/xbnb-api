@@ -61,10 +61,43 @@ async function deleteReview(req, res) {
     }
 }
 
+async function getReviewStatistics(req, res) {
+    try {
+        const reviewStats = await reviewModel.getReviewStatistics();
+        res.json(reviewStats);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+async function getReviewSentiment(req, res) {
+    try {
+        const reviewSentiment = await reviewModel.getReviewSentiment();
+        res.json(reviewSentiment);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+async function getReviewTrends(req, res) {
+    try {
+        const reviewTrends = await reviewModel.getReviewTrends();
+        res.json(reviewTrends);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 module.exports = {
     getUserReviews,
     createReview,
     getReviewById,
     updateReview,
-    deleteReview
+    deleteReview,
+    getReviewStatistics,
+    getReviewSentiment,
+    getReviewTrends
 };

@@ -15,6 +15,7 @@ const userRoutes = require('./routes/UserRoutes');
 const listingRoutes = require('./routes/ListingRoutes');
 const bookingRoutes = require('./routes/BookingRoutes');
 const reviewRoutes = require('./routes/ReviewRoutes');
+const dashboardRoutes = require('./routes/DashboardRoutes');
 
 // Swagger setup
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -27,6 +28,7 @@ app.use('/api', userRoutes);
 app.use('/api', listingRoutes);
 app.use('/api', bookingRoutes);
 app.use('/api', reviewRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 const PORT = process.env.PORT || 3000;
 

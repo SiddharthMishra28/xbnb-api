@@ -123,11 +123,52 @@ async function deleteListing(listingId) {
     await pool.execute('DELETE FROM listings WHERE listing_id = ?', [listingId]);
 }
 
+async function getListingStatistics() {
+    try {
+        const [totalListingsRows] = await pool.query('SELECT COUNT(*) AS total_listings FROM listings');
+        const totalListings = totalListingsRows[0].total_listings;
+
+        const [newListingsRows] = await pool.query('SELECT DATE(created_at) AS date, COUNT(*) AS new_listings FROM listings GROUP BY DATE(created_at)');
+        const newListings = newListingsRows.map(row => ({ date: row.date, new_listings: row.new_listings }));
+
+        return { totalListings, newListings };
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getPopularListings() {
+    try {
+        const [popularListingsRows] = await pool.query('SELECT listing_id, COUNT(*) AS bookings_count FROM bookings GROUP BY listing_id ORDER BY bookings_count DESC LIMIT 10');
+
+        return popularListingsRows;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getListingPerformance() {
+    try {
+        const [averagePriceRow] = await pool.query('SELECT AVG(price) AS average_price FROM listings');
+        const averagePrice = averagePriceRow[0].average_price;
+
+        // Add more performance metrics as needed
+        // Example: occupancy rate, average rating, etc.
+
+        return { averagePrice };
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getAllListings,
     getListingById,
     searchListings,
     createListing,
     updateListing,
-    deleteListing
+    deleteListing,
+    getListingStatistics,
+    getPopularListings,
+    getListingPerformance
 };
