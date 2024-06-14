@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/AuthController');
 const authenticateToken = require('../middleware/AuthMiddleware');
+const {
+    validateUserRegistration,
+    validateUserLogin
+} = require('../validations/userValidations');
 
 /**
  * @swagger
@@ -35,7 +39,7 @@ const authenticateToken = require('../middleware/AuthMiddleware');
  *       '500':
  *         description: Internal server error
  */
-router.post('/register', authController.register);
+router.post('/register', validateUserRegistration, authController.register);
 
 /**
  * @swagger
@@ -62,7 +66,7 @@ router.post('/register', authController.register);
  *       '500':
  *         description: Internal server error
  */
-router.post('/login', authController.login);
+router.post('/login', validateUserLogin, authController.login);
 
 /**
  * @swagger

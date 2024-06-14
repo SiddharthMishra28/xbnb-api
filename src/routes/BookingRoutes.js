@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bookingController = require('../controllers/BookingController');
 const authenticateToken = require('../middleware/AuthMiddleware');
+const {
+    validateBookingCreation,
+    validateBookingUpdate
+} = require('../validations/bookingValidations');
 
 /**
  * @swagger
@@ -87,7 +91,7 @@ router.get('/bookings', authenticateToken, bookingController.getUserBookings);
  *                   type: string
  *                   description: A message indicating the failure due to an internal server error.
  */
-router.post('/bookings/create', authenticateToken, bookingController.createBooking);
+router.post('/bookings/create', authenticateToken, validateBookingCreation, bookingController.createBooking);
 
 /**
  * @swagger
@@ -173,7 +177,7 @@ router.get('/bookings/:booking_id', bookingController.getBookingById);
  *                   type: string
  *                   description: A message indicating the failure due to an internal server error.
  */
-router.put('/bookings/:booking_id/update', authenticateToken, bookingController.updateBooking);
+router.put('/bookings/:booking_id/update', authenticateToken, validateBookingUpdate, bookingController.updateBooking);
 
 /**
  * @swagger

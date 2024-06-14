@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const reviewController = require('../controllers/reviewController');
 const authenticateToken = require('../middleware/AuthMiddleware');
+const {
+    validateReviewCreation,
+    validateReviewUpdate
+} = require('../validations/reviewValidations');
 
 /**
  * @swagger
@@ -53,7 +57,7 @@ router.get('/reviews', authenticateToken, reviewController.getUserReviews);
  *       '500':
  *         description: Internal server error
  */
-router.post('/reviews/create', authenticateToken, reviewController.createReview);
+router.post('/reviews/create', authenticateToken, validateReviewCreation, reviewController.createReview);
 
 /**
  * @swagger
@@ -110,7 +114,7 @@ router.get('/reviews/:review_id', reviewController.getReviewById);
  *       '500':
  *         description: Internal server error
  */
-router.put('/reviews/:review_id/update', authenticateToken, reviewController.updateReview);
+router.put('/reviews/:review_id/update', authenticateToken, validateReviewUpdate, reviewController.updateReview);
 
 /**
  * @swagger

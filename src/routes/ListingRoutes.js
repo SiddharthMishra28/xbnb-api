@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const listingController = require('../controllers/ListingController');
 const authenticateToken = require('../middleware/AuthMiddleware');
+const {
+    validateListingCreation,
+    validateListingUpdate
+} = require('../validations/listingValidations');
 
 /**
  * @swagger
@@ -148,7 +152,7 @@ router.get('/listings/search/q', listingController.searchListings);
  *                   type: string
  *                   description: A message indicating the failure due to an internal server error.
  */
-router.post('/listings/create', authenticateToken, listingController.createListing);
+router.post('/listings/create', authenticateToken, validateListingCreation, listingController.createListing);
 
 /**
  * @swagger
@@ -226,7 +230,7 @@ router.post('/listings/create', authenticateToken, listingController.createListi
  *                   type: string
  *                   description: A message indicating the failure due to an internal server error.
  */
-router.put('/listings/:listing_id/update', authenticateToken, listingController.updateListing);
+router.put('/listings/:listing_id/update', authenticateToken, validateListingUpdate, listingController.updateListing);
 
 /**
  * @swagger

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/UserController');
 const authenticateToken = require('../middleware/AuthMiddleware');
+const { validateUserProfileUpdate } = require('../validations/userValidations');
 
 /**
  * @swagger
@@ -55,7 +56,7 @@ router.get('/users/profile', authenticateToken, userController.getProfile);
  *       '500':
  *         description: Internal server error
  */
-router.put('/users/update_profile', authenticateToken, userController.updateProfile);
+router.put('/users/update_profile', authenticateToken, validateUserProfileUpdate, userController.updateProfile);
 
 /**
  * @swagger
